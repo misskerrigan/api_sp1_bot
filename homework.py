@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 load_dotenv()
 logging.basicConfig(level=logging.DEBUG, filename='main.log', filemode='w')
 
-
 PRAKTIKUM_TOKEN = os.getenv('PRAKTIKUM_TOKEN')
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
@@ -42,9 +41,10 @@ def get_homework_statuses(current_timestamp):
     }
     try:
         homework_statuses = requests.get(URL, params=params, headers=HEADERS)
-        return homework_statuses.json()
     except requests.RequestException as error:
-        return logging.error(error, exc_info=True)
+        logging.error(error, exc_info=True)
+    else:
+        return homework_statuses.json()
 
 
 def send_message(msg, bot_client):
