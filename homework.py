@@ -36,14 +36,16 @@ def parse_homework_status(homework):
 
 
 def get_homework_statuses(current_timestamp):
+    if current_timestamp is None:
+        current_timestamp = int(time.time())
     params = {
-        'from_date': current_timestamp,
+        'from_date': current_timestamp
     }
     try:
-        homework_statuses = requests.get(URL, params=params, headers=HEADERS)
+        homework_statuses = requests.get(URL, headers=HEADERS, params=params)
+        return homework_statuses.json()
     except requests.RequestException as error:
-        logging.error(error, exc_info=True)
-    return homework_statuses.json()
+        return logging.error(error, exc_info=True)
 
 
 def send_message(msg, bot_client):
