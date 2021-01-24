@@ -41,9 +41,9 @@ def get_homework_statuses(current_timestamp):
     }
     try:
         homework_statuses = requests.get(URL, params=params, headers=HEADERS)
-        return homework_statuses.json()
     except requests.RequestException as error:
         logging.error(error, exc_info=True)
+    return homework_statuses.json()
 
 
 def send_message(msg, bot_client):
