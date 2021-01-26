@@ -42,8 +42,7 @@ def get_homework_statuses(current_timestamp):
     try:
         homework_statuses = requests.get(URL, params=params, headers=HEADERS)
     except requests.RequestException as error:
-        logging.error(f'API недоступно  {URL}, {params}')
-        return {}
+        return logging.error(error, exc_info=True)
     return homework_statuses.json()
 
 
