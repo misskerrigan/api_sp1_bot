@@ -36,16 +36,15 @@ def parse_homework_status(homework):
 
 
 def get_homework_statuses(current_timestamp):
-    if current_timestamp is None:
-        current_timestamp = int(time.time())
     params = {
-        'from_date': current_timestamp
+        'from_date': current_timestamp,
     }
     try:
-        homework_statuses = requests.get(URL, headers=HEADERS, params=params)
+        homework_statuses = requests.get(URL, params=params, headers=HEADERS)
         return homework_statuses.json()
     except requests.RequestException as error:
-        return logging.error(error, exc_info=True)
+        logging.error(f'API недоступно  {URL}, {params}')
+        return {}
 
 
 def send_message(msg, bot_client):
