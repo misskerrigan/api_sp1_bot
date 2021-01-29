@@ -7,7 +7,7 @@ import telegram
 from dotenv import load_dotenv
 
 load_dotenv()
-logging.basicConfig(level=logging.DEBUG, filename='main.log', filemode='w')
+logging.basicConfig(level=logging.DEBUG, filename='main.log', filemode='x')
 
 PRAKTIKUM_TOKEN = os.getenv('PRAKTIKUM_TOKEN')
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
@@ -27,6 +27,9 @@ HOMEWORK_STATUS_DICT = {
 def parse_homework_status(homework):
     homework_name = homework.get('homework_name')
     status = homework.get('status')
+    if homework_name is None:
+        logging.info('Название отсутствует')
+        homework_name = 'Название отсутствует'
     if status not in HOMEWORK_STATUS_DICT:
         msg = f'Неизвестный статус состояния работы {homework_name}.'
         logging.info(msg)
@@ -36,6 +39,8 @@ def parse_homework_status(homework):
 
 
 def get_homework_statuses(current_timestamp):
+    if current_timestamp is None:
+        current_timestamp = int(time.time())
     params = {
         'from_date': current_timestamp,
     }
